@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { CsvService, KrlApiService, Logger, TimeService } from "./services.ts";
 import type { LegRow, StopRow, TrainSummaryRow } from "./domain.ts";
-import namer from "color-namer";
 
 export class AppOrchestrator {
 	constructor(
@@ -102,7 +101,6 @@ export class AppOrchestrator {
 					});
 					if (i > 0) {
 						const prev = stops[i - 1]!;
-						const { html } = namer(t.color, { pick: ["html"] });
 						localLegs.push({
 							train_id: t.train_id,
 							from_index: i - 1,
@@ -112,7 +110,7 @@ export class AppOrchestrator {
 							leg_minutes: this.time.diffMin(prev.time_est, s.time_est),
 							ka_name: t.ka_name,
 							route_name: t.route_name,
-							color: html?.[0]?.name ?? t.color
+							color: t.color
 						});
 					}
 				}
